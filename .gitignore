@@ -1,4 +1,4 @@
-# Logs (Archivos de error de Node)
+# Logs (Archives of error of Node)
 logs
 *.log
 npm-debug.log*
@@ -6,28 +6,28 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# Dependencias (NUNCA SUBIR ESTO)
+# Dependences (Never upload this)
 node_modules/
 
-# Producción (El código compilado que genera Vite)
+# Productions (The compilated code that Vite generates)
 dist/
 dist-ssr/
 
-# Variables de entorno (Tus contraseñas o tokens futuros)
+# Environment variables (Your passwords or future tokens)
 .env
 .env.local
 .env.*.local
 
-# Archivos de caché
+# Cache archives
 .npm
 .eslintcache
 .vite/
 
-# Basura del Sistema Operativo
+# System operator trash
 .DS_Store
 Thumbs.db
 
-# Configuraciones locales del Editor de Código
+# Local configurations of the code editor
 .vscode/*
 !.vscode/extensions.json
 .idea/

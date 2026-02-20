@@ -1,4 +1,3 @@
-// src/components/layout.js
 export function getAppLayout() {
   return /* html */`
     <div class="grid grid-cols-[260px_1fr_320px] h-screen w-full">
