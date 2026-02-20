@@ -1,4 +1,3 @@
-// src/features/navigation/sidebar.js
 export function renderSidebar() {
   const container = document.getElementById('nav-container');
   if (!container) return;

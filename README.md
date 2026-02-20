@@ -1,38 +1,38 @@
-# Lummia Platform - Frontend 🌿
+# Lummia Platform - Frontend
 
-Lummia Platform es una plataforma de aprendizaje gamificada (estilo RPG) construida con una arquitectura frontend moderna y ultraligera. En lugar de depender de frameworks pesados como React o Angular, este proyecto implementa un patrón **MVC (Model-View-Controller)** adaptado para Vanilla JavaScript con un enrutador SPA personalizado.
+Lummia Platform is a gamified learning platform (RPG-style) built with a modern, ultra-lightweight frontend architecture. Instead of relying on heavy frameworks like React or Angular, this project implements an MVC (Model-View-Controller) pattern adapted for Vanilla JavaScript with a custom SPA router.
 
-## 🚀 Tecnologías Principales
+## Core Technologies
 
-* **Motor / Bundler:** [Vite](https://vitejs.dev/) (Configurado con WebSockets para HMR en entornos Linux).
-* **Lenguaje Core:** Vanilla JavaScript (ES6+).
-* **Estilos:** [Tailwind CSS v3](https://tailwindcss.com/) (Integrado vía PostCSS).
-* **Arquitectura:** Modular SPA (Single Page Application) con vistas dinámicas inyectables.
+* **Engine / Bundler:** [Vite](https://vitejs.dev/) (Configured with WebSockets for HMR in Linux environments).
+* **Core Language:** Vanilla JavaScript (ES6+).
+* **Styling:** [Tailwind CSS v3](https://tailwindcss.com/) (Integrated via PostCSS).
+* **Architecture:** Modular SPA (Single Page Application) with dynamic injectable views.
 
 ---
 
-## 🏗️ Mapa de la Arquitectura (Estructura de Carpetas)
+## Architecture Map (Folder Structure)
 
-El proyecto sigue un diseño de alta cohesión y bajo acoplamiento. Cada "Vista" es dueña de su propio diseño y se inyecta en el contenedor principal sin recargar la página:
+The project follows a high-cohesion and low-coupling design. Each "View" owns its own layout and is injected into the main container without reloading the page:
 
 ```text
 frontend-lummia-platform/
-├── public/                 # Assets estáticos (Se sirven directamente para mayor rendimiento).
-│   └── assets/             # Iconos UI (home, clan, pomodoro, shield).
-├── src/                    # 🧠 EL CORAZÓN DE LA APP
-│   ├── api/                # Conexiones futuras al backend (Azure SQL/Express).
-│   ├── components/         # Componentes de UI compartidos (Layout maestro).
-│   ├── features/           # Módulos de negocio (Navegación lateral).
-│   ├── styles/             # Directivas de Tailwind (main.css).
-│   ├── utils/              # Herramientas del sistema.
-│   │   └── router.js       # 🚦 Motor de Enrutamiento (Intercepta clics y cambia vistas).
-│   ├── views/              # 🎨 Vistas Modulares (Páginas de la SPA).
-│   │   ├── clan.js         # Vista del Gremio (NightCoders).
-│   │   ├── courses.js      # Sala de estudio y reproductor de video.
-│   │   ├── home.js         # Dashboard principal y misiones.
-│   │   └── pomodoro.js     # Temporizador de enfoque (Focus Zone).
-│   └── main.js             # Orquestador principal de la aplicación.
-├── index.html              # El lienzo en blanco (<div id="app"></div>).
-├── vite.config.js          # Configuración de red y WebSockets para el servidor local.
-├── postcss.config.js       # Puente de compilación para Tailwind v3.
-└── tailwind.config.js      # Design System (Colores personalizados: lummia-dark, lummia-sage).
+├── public/                 # Static assets (Served directly for better performance).
+│   └── assets/             # UI Icons (home, clan, pomodoro, shield).
+├── src/                    # THE HEART OF THE APP
+│   ├── api/                # Future backend connections (Azure SQL/Express).
+│   ├── components/         # Shared UI components (Master layout).
+│   ├── features/           # Business modules (Sidebar navigation).
+│   ├── styles/             # Tailwind directives (main.css).
+│   ├── utils/              # System utilities.
+│   │   └── router.js       # Routing Engine (Intercepts clicks and changes views).
+│   ├── views/              # Modular Views (SPA Pages).
+│   │   ├── clan.js         # Guild View (NightCoders).
+│   │   ├── courses.js      # Study room and video player.
+│   │   ├── home.js         # Main dashboard and quests.
+│   │   └── pomodoro.js     # Focus timer (Focus Zone).
+│   └── main.js             # Main application orchestrator.
+├── index.html              # The blank canvas (<div id="app"></div>).
+├── vite.config.js          # Network and WebSocket configuration for local server.
+├── postcss.config.js       # Build bridge for Tailwind v3.
+└── tailwind.config.js      # Design System (Custom colors: lummia-dark, lummia-sage).

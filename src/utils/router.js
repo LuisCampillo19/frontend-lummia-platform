@@ -1,10 +1,12 @@
-// Importamos todas nuestras vistas modulares
+// src/utils/router.js
+
+// Import all our modular views
 import { renderHome } from '../views/home.js';
 import { renderCourses } from '../views/courses.js';
 import { renderPomodoro } from '../views/pomodoro.js';
 import { renderClan } from '../views/clan.js';
 
-// Mapeamos las rutas con su función correspondiente
+// Map routes to their corresponding functions
 const routes = {
   home: renderHome,
   courses: renderCourses,
@@ -24,10 +26,10 @@ export function navigateTo(route) {
   const mainContainer = document.getElementById('main-container');
   if (!mainContainer) return;
 
-  // Busca la vista, y si no existe, renderiza el 404
+  // Find the view, and if it doesn't exist, render the 404
   const viewFunction = routes[route] || routes['404'];
   
-  // Ejecuta la función para inyectar el HTML
+  // Execute the function to inject the HTML
   mainContainer.innerHTML = viewFunction();
 }
 
@@ -39,13 +41,13 @@ export function initRouter() {
       event.preventDefault(); 
       const route = navBtn.getAttribute('data-route');
       
-      // ✨ AGREGA ESTA LÍNEA PARA VER QUÉ ESTÁ LEYENDO ✨
-      console.log("Intentando ir a la ruta:", route); 
+      //  ADD THIS LINE TO SEE WHAT IT'S READING 
+      console.log("Attempting to navigate to route:", route); 
       
       navigateTo(route);
     }
   });
 
-  // Inicializa la app en el Home por defecto
+  // Initialize the app on the Home route by default
   navigateTo('home');
 }

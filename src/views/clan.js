@@ -1,4 +1,3 @@
-// src/views/clan.js
 export function renderClan() {
   return `
     <div class="p-8 fade-in h-full max-w-5xl mx-auto">

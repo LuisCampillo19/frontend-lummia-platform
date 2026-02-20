@@ -2,7 +2,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig({
   server: {
-    host: true, // Permite conexiones en redes locales/Linux
+    host: true, // Allows conections in local networks/linux
     port: 5173,
     hmr: {
       host: 'localhost',

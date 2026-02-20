@@ -1,7 +1,7 @@
 import './styles/main.css';
 import { getAppLayout } from './components/layout.js';
 import { renderSidebar } from './features/navigation/sidebar.js';
-import { initRouter } from './utils/router.js'; // IMPORTAMOS EL ROUTER
+import { initRouter } from './utils/router.js'; // IMPORT THE ROUTER
 
 document.addEventListener('DOMContentLoaded', () => {
   const appRoot = document.getElementById('app');
@@ -10,7 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     appRoot.innerHTML = getAppLayout();
     renderSidebar(); 
     
-    //  INICIALIZAMOS EL ROUTER
+    //  INITIALIZE THE ROUTER
     initRouter();
     
     console.log("¡Lummia cargado y Router activado!");

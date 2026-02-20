@@ -1,4 +1,3 @@
-// src/views/courses.js
 export function renderCourses() {
   return `
     <div class="p-8 fade-in h-full flex flex-col">

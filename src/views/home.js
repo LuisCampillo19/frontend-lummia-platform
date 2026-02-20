@@ -1,5 +1,3 @@
-// src/views/home.js
-
 export function renderHome() {
   return `
     <div class="p-8 fade-in text-gray-300 w-full max-w-6xl mx-auto">

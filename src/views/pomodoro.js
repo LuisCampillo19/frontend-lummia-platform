@@ -1,4 +1,3 @@
-// src/views/pomodoro.js
 export function renderPomodoro() {
   return `
     <div class="p-8 fade-in h-full flex flex-col items-center justify-center text-center">
