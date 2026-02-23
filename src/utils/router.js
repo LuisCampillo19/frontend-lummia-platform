@@ -1,12 +1,11 @@
 // src/utils/router.js
 
-// Import all our modular views
 import { renderHome } from '../views/home.js';
 import { renderCourses } from '../views/courses.js';
 import { renderPomodoro } from '../views/pomodoro.js';
 import { renderClan } from '../views/clan.js';
+import { initPomodoro } from '../features/pomodoro/timer.js';
 
-// Map routes to their corresponding functions
 const routes = {
   home: renderHome,
   courses: renderCourses,
@@ -22,15 +21,54 @@ const routes = {
   `
 };
 
+function updateActiveNav(currentRoute) {
+  const navButtons = document.querySelectorAll('.nav-btn');
+  if (!navButtons.length) return;
+
+  // Define the style arrays
+  const activeClasses = ['bg-lummia-sage/10', 'text-lummia-sage', 'border-lummia-sage/20', 'shadow-[0_0_15px_rgba(88,166,115,0.05)]'];
+  const inactiveClasses = ['text-gray-400', 'border-transparent', 'hover:text-white', 'hover:bg-white/5'];
+  
+  const activeImg = ['opacity-100', 'drop-shadow-[0_0_5px_rgba(88,166,115,0.8)]'];
+  const inactiveImg = ['opacity-70'];
+
+  navButtons.forEach(btn => {
+    const btnRoute = btn.getAttribute('data-route');
+    const img = btn.querySelector('img');
+
+    if (btnRoute === currentRoute) {
+      // Apply active glow
+      btn.classList.remove(...inactiveClasses);
+      btn.classList.add(...activeClasses);
+      if (img) {
+        img.classList.remove(...inactiveImg);
+        img.classList.add(...activeImg);
+      }
+    } else {
+      // Remove glow, set inactive
+      btn.classList.remove(...activeClasses);
+      btn.classList.add(...inactiveClasses);
+      if (img) {
+        img.classList.remove(...activeImg);
+        img.classList.add(...inactiveImg);
+      }
+    }
+  });
+}
+
 export function navigateTo(route) {
   const mainContainer = document.getElementById('main-container');
   if (!mainContainer) return;
 
-  // Find the view, and if it doesn't exist, render the 404
   const viewFunction = routes[route] || routes['404'];
-  
-  // Execute the function to inject the HTML
   mainContainer.innerHTML = viewFunction();
+
+  // Trigger the active state update
+  updateActiveNav(route);
+
+  if (route === 'pomodoro') {
+    initPomodoro();
+  }
 }
 
 export function initRouter() {
@@ -40,14 +78,9 @@ export function initRouter() {
     if (navBtn) {
       event.preventDefault(); 
       const route = navBtn.getAttribute('data-route');
-      
-      //  ADD THIS LINE TO SEE WHAT IT'S READING 
-      console.log("Attempting to navigate to route:", route); 
-      
       navigateTo(route);
     }
   });
 
-  // Initialize the app on the Home route by default
   navigateTo('home');
 }
