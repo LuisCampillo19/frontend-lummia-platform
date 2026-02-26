@@ -1,9 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* style.css */
 
-@layer base {
-  body {
-    @apply bg-lummia-dark text-gray-300 antialiased;
+/* Reset global para eliminar bordes y contornos por defecto */
+button,
+a.nav-link,
+.time-btn,
+#mobile-menu-toggle {
+  border: none !important;      /* Elimina el borde físico por completo */
+  outline: none !important;     /* Elimina el contorno de enfoque (puedes añadir uno custom si quieres) */
+  box-shadow: none !important;  /* Elimina cualquier sombra que parezca un borde */
+}
+
+/* Para mayor seguridad, reset total en móvil */
+@media (max-width: 1024px) {
+  #mobile-menu-toggle {
+    border: none !important;
   }
 }
