@@ -1,6 +1,6 @@
 export function renderCourses() {
   return /* html */`
-    <div class="fade-in space-y-10 h-full flex flex-col">
+    <div class="animate-system-boot space-y-10 h-full flex flex-col">
       
       <div class="flex justify-between items-center border-b border-white/[0.02] pb-8">
         <div>
@@ -9,6 +9,7 @@ export function renderCourses() {
           </h2>
           <p class="text-[#697C97] font-bold mt-1 uppercase tracking-widest text-[10px] opacity-50">Industrial Learning Protocol / v1.0</p>
         </div>
+        
         <div class="flex items-center gap-3 bg-[#46F216]/5 border border-[#46F216]/20 px-5 py-2.5 rounded-2xl shadow-[0_0_20px_rgba(70,242,22,0.05)]">
           <span class="w-2 h-2 bg-[#46F216] rounded-full shadow-[0_0_8px_#46F216] animate-pulse"></span>
           <span class="text-[#46F216] text-[10px] font-black uppercase tracking-[0.2em]">

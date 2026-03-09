@@ -1,14 +1,16 @@
 // src/utils/router.js
 
 import { renderSkills } from '../views/skills.js';
-import { renderHome } from '../views/home.js';
+import { renderDashboard} from '../views/dashboard.js';
 import { renderCourses } from '../views/courses.js';
 import { renderPomodoro } from '../views/pomodoro.js';
 import { renderClan } from '../views/clan.js';
-import { initPomodoro } from '../features/pomodoro/timer.js';
+import { initPomodoro } from '../features/services/pomodoro/timer.js';
+import { initDashboardLogic } from '../features/services/dashboard/dashboardLogic.js';
+
 
 const routes = {
-  home: renderHome,
+  dashboard: renderDashboard,
   courses: renderCourses,
   pomodoro: renderPomodoro,
   clan: renderClan,
@@ -88,6 +90,10 @@ export function navigateTo(route) {
   // Feature specific initializations
   if (route === 'pomodoro') {
     initPomodoro();
+  }
+
+  if (route === 'dashboard') {
+    initDashboardLogic();
   }
 }
 

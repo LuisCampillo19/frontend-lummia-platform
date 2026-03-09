@@ -1,6 +1,6 @@
 export function renderPomodoro() {
   return /* html */`
-    <div class="p-8 fade-in h-full flex flex-col items-center justify-center text-center relative overflow-hidden">
+    <div class="p-8 animate-system-boot h-full flex flex-col items-center justify-center text-center relative overflow-hidden">
       
       <div class="bg-[#11161E]/60 backdrop-blur-2xl border border-white/[0.02] p-12 rounded-[3.5rem] shadow-2xl w-full max-w-lg relative overflow-hidden group">
         

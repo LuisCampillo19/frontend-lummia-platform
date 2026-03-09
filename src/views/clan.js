@@ -1,6 +1,6 @@
 export function renderClan() {
   return /* html */`
-    <div class="fade-in space-y-10">
+    <div class="animate-system-boot space-y-10">
       
       <div class="h-52 w-full bg-[#11161E]/50 rounded-[2.5rem] flex items-end p-10 relative overflow-hidden border border-white/[0.02]">
         <div class="absolute inset-0 bg-[url('/assets/clan.png')] bg-no-repeat bg-right opacity-[0.03] bg-contain invert transform scale-150 translate-x-20 pointer-events-none"></div>

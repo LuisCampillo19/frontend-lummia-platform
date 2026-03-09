@@ -1,6 +1,6 @@
 export function renderSkills() {
   return /* html */`
-    <div class="fade-in space-y-10 h-full flex flex-col">
+    <div class="animate-system-boot space-y-10 h-full flex flex-col">
       
       <div class="flex justify-between items-end border-b border-white/[0.02] pb-10">
         <div>

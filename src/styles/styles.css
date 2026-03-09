@@ -1,0 +1,38 @@
+/* style.css */
+
+/* GLOBAL RESET*/
+button,
+a.nav-link,
+.time-btn,
+#mobile-menu-toggle {
+  border: none !important;  
+  outline: none !important;    
+  box-shadow: none !important;  
+}
+
+/* More security for moviles */
+@media (max-width: 1024px) {
+  #mobile-menu-toggle {
+    border: none !important;
+  }
+}
+
+/* LUMMIA CORE ANIMATIONS */
+
+@keyframes system-boot {
+  0% { 
+    opacity: 0; 
+    transform: translateY(30px) scale(0.98); 
+    filter: blur(5px); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0) scale(1); 
+    filter: blur(0); 
+  }
+}
+
+.animate-system-boot {
+  /* The cubic-bezier curve makes it brake smoothly at the end */
+  animation: system-boot 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
