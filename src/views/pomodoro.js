@@ -1,78 +1,97 @@
 export function renderPomodoro() {
   return /* html */`
-    <div class="p-8 animate-system-boot h-full flex flex-col items-center justify-center text-center relative overflow-hidden">
+    <div class="animate-system-boot h-full flex flex-col relative z-0 p-4 lg:p-6 lg:px-8">
       
-      <div class="bg-[#11161E]/60 backdrop-blur-2xl border border-white/[0.02] p-12 rounded-[3.5rem] shadow-2xl w-full max-w-lg relative overflow-hidden group">
-        
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-32 bg-[#46F216]/5 blur-[60px] pointer-events-none"></div>
-
-        <div class="relative z-10">
-          <div class="flex items-center justify-center gap-2 mb-6">
-            <span class="w-1.5 h-1.5 bg-[#46F216] rounded-full shadow-[0_0_8px_#46F216] animate-pulse"></span>
-            <h2 class="text-[10px] font-black text-[#697C97] uppercase tracking-[0.4em]">Deep Work Protocol</h2>
-          </div>
-          
-          <div class="flex gap-3 justify-center mb-10">
-             ${[15, 25, 45, 60].map(time => {
-               const isActive = time === 25;
-               const xp = time * 20;
-               return `
-                <button class="time-btn px-5 py-2 rounded-xl text-[11px] font-black transition-all duration-300 border 
-                  ${isActive 
-                    ? 'border-[#46F216]/40 bg-[#46F216]/10 text-[#46F216] shadow-[0_0_15px_rgba(70,242,22,0.1)]' 
-                    : 'border-white/5 text-[#697C97] hover:border-white/10 hover:text-white bg-black/20'}" 
-                  data-time="${time}" data-xp="${xp}">
-                  ${time}M
-                </button>
-               `;
-             }).join('')}
-          </div>
-          
-          <div id="pomodoro-display" class="text-[10rem] font-black text-white mb-10 tracking-tighter leading-none drop-shadow-[0_0_30px_rgba(255,255,255,0.05)]">
-            25:00
-          </div>
-          
-          <div class="flex items-center justify-center gap-6 mb-10">
-            <button id="reset-btn" class="w-14 h-14 rounded-2xl bg-black/40 border border-white/5 flex items-center justify-center text-[#697C97] hover:text-[#46F216] hover:border-[#46F216]/30 transition-all group/btn" title="Reset System">
-              <svg class="w-6 h-6 group-hover/btn:rotate-180 transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
-            </button>
-            
-            <button id="start-btn" class="px-12 py-5 rounded-[2rem] bg-[#46F216] text-[#080A0F] font-black text-xl hover:scale-105 active:scale-95 transition-all shadow-[0_0_30px_rgba(70,242,22,0.4)] tracking-tighter uppercase">
-              Initialize Focus
-            </button>
-          </div>
-
-          <div class="bg-black/40 rounded-3xl p-6 border border-white/5 text-left w-full group/input hover:border-[#46F216]/20 transition-all">
-             <p class="text-[10px] font-black text-[#697C97] uppercase tracking-widest mb-3 opacity-60">Target Reward Status (<span id="reward-xp-text" class="text-[#46F216] font-bold">+500 XP</span>)</p>
-             <div class="flex items-center gap-4">
-                <div class="w-10 h-10 bg-[#080A0F] rounded-xl flex items-center justify-center border border-white/5 group-hover/input:border-[#46F216]/30 transition-all">
-                    <img src="/assets/treasure.png" alt="Reward" class="w-5 h-5 object-contain invert opacity-40 group-hover/input:opacity-100 transition-all">
-                </div>
-                <input type="text" id="reward-input" placeholder="Enter objective..." class="bg-transparent border-b border-white/10 text-base text-white font-bold focus:outline-none focus:border-[#46F216] w-full transition-all pb-1 placeholder:text-[#697C97]/30" value="">
-             </div>
-          </div>
-        </div>
+      <div class="flex-none mb-8">
+        <h1 class="text-3xl font-black text-white tracking-wide drop-shadow-md flex items-center gap-3">
+          <i class="fa-solid fa-stopwatch text-fuchsia-500 animate-pulse"></i> Focus Hub
+        </h1>
+        <p class="text-sm text-zinc-400 font-medium mt-2">Manage your energy and track your weekly goals.</p>
       </div>
 
-      <div id="reward-modal" class="fixed inset-0 bg-[#080A0F]/90 backdrop-blur-xl flex items-center justify-center z-50 hidden opacity-0 transition-opacity duration-500 p-6">
-         <div id="reward-modal-content" class="bg-[#11161E] border border-[#46F216]/30 p-12 rounded-[3rem] shadow-[0_0_60px_rgba(70,242,22,0.15)] text-center max-w-md w-full transform scale-95 transition-all duration-500">
-            <div class="w-24 h-24 bg-[#46F216]/10 rounded-[2rem] flex items-center justify-center mx-auto mb-8 border border-[#46F216]/20 shadow-[0_0_20px_rgba(70,242,22,0.1)]">
-               <img src="/assets/treasure.png" alt="Chest" class="w-12 h-12 object-contain invert">
+      <div class="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-8 pb-10">
+         
+         <div class="lg:col-span-4 flex flex-col gap-6">
+            <div class="bg-white/[0.02] backdrop-blur-3xl border border-white/[0.05] rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden flex flex-col items-center group">
+               <div class="absolute inset-0 bg-gradient-to-b from-fuchsia-600/10 to-transparent opacity-50"></div>
+               <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-fuchsia-500/20 rounded-full blur-[60px]"></div>
+
+               <div class="relative z-10 bg-fuchsia-500/10 border border-fuchsia-500/30 px-4 py-1.5 rounded-full mb-6 flex items-center gap-2 shadow-[0_0_15px_rgba(217,70,239,0.2)]">
+                  <span id="status-dot" class="w-2 h-2 rounded-full bg-fuchsia-400 animate-pulse"></span>
+                  <span id="pomodoro-status" class="text-[10px] font-black text-fuchsia-400 uppercase tracking-widest">Focus Phase</span>
+               </div>
+
+               <div id="pomodoro-ring" class="relative z-10 w-56 h-56 rounded-full bg-black/40 border-[4px] border-white/5 flex items-center justify-center shadow-[inset_0_0_30px_rgba(0,0,0,0.8)] mb-6 before:absolute before:inset-[-4px] before:rounded-full before:border-[4px] before:border-transparent before:border-t-fuchsia-500 before:animate-[spin_4s_linear_infinite] transition-all">
+                  <div class="text-center">
+                     <h2 id="time-display" class="text-6xl font-black text-white tracking-tighter drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] tabular-nums">25:00</h2>
+                     <p class="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Minutes</p>
+                  </div>
+               </div>
+
+               <div class="relative z-10 flex gap-2 w-full justify-center mb-2">
+                  <button class="mode-btn active px-4 py-2 rounded-xl bg-fuchsia-500/20 border border-fuchsia-500/50 text-fuchsia-400 text-[10px] font-bold uppercase tracking-widest transition-all" data-work="25" data-break="5" data-xp="50">25m</button>
+                  <button class="mode-btn px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-zinc-500 hover:text-white text-[10px] font-bold uppercase tracking-widest transition-all" data-work="50" data-break="10" data-xp="120">50m</button>
+                  <button class="mode-btn px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-zinc-500 hover:text-white text-[10px] font-bold uppercase tracking-widest transition-all" data-work="90" data-break="15" data-xp="250">90m</button>
+               </div>
+
+               <div class="relative z-10 text-center mb-6">
+                  <span class="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">Reward: <span id="reward-display" class="text-amber-400">+50 XP</span></span>
+               </div>
+
+               <div class="relative z-10 flex items-center gap-4 w-full justify-center">
+                  <button id="reset-timer-btn" class="w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white transition-all active:scale-95">
+                     <i class="fa-solid fa-rotate-right text-lg"></i>
+                  </button>
+                  <button id="start-timer-btn" class="flex-1 py-3.5 rounded-2xl bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-black uppercase tracking-widest text-xs shadow-[0_0_20px_rgba(217,70,239,0.4)] transition-all transform hover:scale-[1.02] active:scale-95">
+                     Start
+                  </button>
+               </div>
             </div>
-            <h3 class="text-3xl font-black text-white mb-2 uppercase tracking-tighter italic">Quest Complete</h3>
-            <p id="modal-xp-text" class="text-[#46F216] font-black text-sm tracking-[0.2em] mb-8">+500 EXP SYNCHRONIZED</p>
-            
-            <div class="bg-black/60 border border-white/5 p-6 rounded-2xl mb-10">
-               <p class="text-[10px] text-[#697C97] font-black uppercase tracking-widest mb-2 opacity-50 italic">Objective Secured</p>
-               <p id="modal-reward-text" class="text-white font-black text-xl tracking-tight"></p>
-            </div>
-            
-            <button id="close-modal-btn" class="w-full py-5 bg-[#46F216]/10 hover:bg-[#46F216]/20 border border-[#46F216]/30 rounded-2xl text-[#46F216] font-black tracking-[0.2em] uppercase transition-all active:scale-95 shadow-lg">
-               Claim Reward
-            </button>
          </div>
-      </div>
 
+         <div class="lg:col-span-8 flex flex-col gap-6 h-full">
+            <div class="bg-white/[0.02] backdrop-blur-3xl border border-white/[0.05] rounded-[2.5rem] p-6 lg:p-8 shadow-2xl flex-1 flex flex-col overflow-hidden">
+               
+               <div class="flex items-center justify-between mb-6">
+                  <h3 class="text-sm font-black text-white uppercase tracking-widest flex items-center gap-3">
+                     <i class="fa-solid fa-list-check text-emerald-400"></i> Weekly Log
+                  </h3>
+                  <div class="flex gap-2">
+                     <button id="add-task-btn" class="px-3 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-emerald-500/20 transition-colors active:scale-95">
+                        <i class="fa-solid fa-plus mr-1"></i> Add
+                     </button>
+                     <button id="clear-all-tasks" class="px-3 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-amber-500/20 transition-colors active:scale-95">
+                        <i class="fa-solid fa-eraser mr-1"></i> Clear
+                     </button>
+                     <button id="delete-all-tasks" class="px-3 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-red-500/20 transition-colors active:scale-95">
+                        <i class="fa-solid fa-trash-can mr-1"></i> Delete All
+                     </button>
+                  </div>
+               </div>
+
+               <div class="flex-1 overflow-x-auto custom-scrollbar bg-black/40 rounded-2xl border border-white/10">
+                  <table class="w-full min-w-[800px] border-collapse text-left">
+                     <thead>
+                        <tr class="border-b border-white/10 bg-white/5">
+                           <th class="py-3 px-4 text-[10px] font-black text-zinc-400 uppercase tracking-widest w-1/3 border-r border-white/5">Weekly Objective</th>
+                           <th class="py-3 px-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest text-center border-r border-white/5 w-14">Mon</th>
+                           <th class="py-3 px-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest text-center border-r border-white/5 w-14">Tue</th>
+                           <th class="py-3 px-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest text-center border-r border-white/5 w-14">Wed</th>
+                           <th class="py-3 px-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest text-center border-r border-white/5 w-14">Thu</th>
+                           <th class="py-3 px-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest text-center border-r border-white/5 w-14">Fri</th>
+                           <th class="py-3 px-2 text-[10px] font-black text-amber-400 uppercase tracking-widest text-center border-r border-white/5 w-14">Sat</th>
+                           <th class="py-3 px-2 text-[10px] font-black text-amber-400 uppercase tracking-widest text-center border-r border-white/5 w-14">Sun</th>
+                           <th class="py-3 px-2 text-[10px] font-black text-red-400 uppercase tracking-widest text-center w-12">Del</th>
+                        </tr>
+                     </thead>
+                     <tbody id="task-table-body" class="text-sm">
+                        </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+
+      </div>
     </div>
   `;
 }

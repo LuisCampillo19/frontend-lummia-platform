@@ -36,3 +36,27 @@ a.nav-link,
   /* The cubic-bezier curve makes it brake smoothly at the end */
   animation: system-boot 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
+
+/* ─── Scrollbar Premium (Glassmorphism) ─── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(168, 85, 247, 0.3); /* Morado translúcido */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(168, 85, 247, 0.7); /* Morado más brillante al pasar el mouse */
+}
+
+/* Opcional: Ocultar las flechitas de los extremos del scroll en algunos navegadores */
+::-webkit-scrollbar-button {
+  display: none;
+}

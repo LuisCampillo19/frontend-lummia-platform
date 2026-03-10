@@ -3,48 +3,58 @@ export function renderSidebar() {
   if (!container) return;
 
   const menuItems = [
-    { name: 'Dashboard', icon: 'dashboard', route: 'dashboard' },
+    { name: 'Home Hub', icon: 'dashboard', route: 'home' }, // <-- Cambiado aquí
     { name: 'Pomodoro', icon: 'pomodoro', route: 'pomodoro' },
     { name: 'Clan system', icon: 'clan', route: 'clan' },
-    { name: 'Courses', icon: 'courses', route: 'courses' },
-    { name: 'My Skills', icon: 'treasure', route: 'skills' }
+    { name: 'Skill Tree', icon: 'courses', route: 'courses' },
+    { name: 'My Loot', icon: 'treasure', route: 'skills' }
   ];
 
   container.innerHTML = /* html */`
-    <div class="p-6 md:p-8 flex items-center gap-3.5 border-b border-white/[0.02]">
-      <div class="w-10 h-10 bg-[#46F216] rounded-xl flex items-center justify-center text-[#080A0F] font-black text-2xl shadow-[0_0_20px_rgba(70,242,22,0.4)]">L</div>
+    <div class="p-8 flex items-center gap-4 border-b border-white/[0.05]">
+      <div class="w-10 h-10 bg-gradient-to-br from-purple-500 to-fuchsia-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-[0_0_20px_rgba(168,85,247,0.4)] animate-float border border-white/20">L</div>
       <div class="flex flex-col">
-        <h1 class="text-white text-xl font-bold tracking-tighter leading-none">Lummia</h1>
-        <span class="text-[9px] text-[#46F216] font-black tracking-[0.2em] uppercase opacity-70">Industrial</span>
+        <h1 class="text-white text-xl font-bold tracking-tight leading-none drop-shadow-md">Lummia</h1>
+        <span class="text-[9px] text-fuchsia-400 font-bold tracking-[0.2em] uppercase mt-1 drop-shadow-[0_0_8px_rgba(192,38,211,0.5)]">Platform</span>
       </div>
     </div>
 
-    <div class="flex-1 px-4 py-8 md:py-10 space-y-2.5 overflow-y-auto custom-scrollbar">
-      <p class="text-[10px] font-black text-[#697C97]/40 uppercase tracking-[0.3em] px-4 mb-5">Core Systems</p>
+    <div class="flex-1 px-4 py-8 space-y-2 overflow-y-auto custom-scrollbar">
+      <p class="text-[10px] font-medium text-zinc-500 uppercase tracking-[0.2em] px-4 mb-5">Core Systems</p>
       
       ${menuItems.map(item => `
         <a href="#" data-route="${item.route}" 
-           class="nav-link group relative flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 bg-transparent hover:bg-white/[0.02] overflow-hidden cursor-pointer">
-          <div class="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#46F216] rounded-r-full opacity-0 group-hover:opacity-100 transition-all duration-300 shadow-[0_0_15px_#46F216]"></div>
+           class="nav-link group relative flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 border border-transparent overflow-hidden cursor-pointer">
           
-          <img src="../../public/assets/${item.icon}.png" alt="${item.name}" 
-               class="invert w-6 md:w-5 h-6 md:h-5 object-contain opacity-40 group-hover:opacity-100 transition-all duration-300">
+          <div class="nav-indicator absolute left-0 top-1/2 -translate-y-1/2 w-1 h-0 bg-purple-500 rounded-r-full transition-all duration-300 shadow-[0_0_12px_#a855f7]"></div>
           
-          <span class="font-bold text-base md:text-sm text-[#697C97] group-hover:text-white transition-colors tracking-tight">${item.name}</span>
+          <img src="/assets/${item.icon}.png" alt="${item.name}" 
+               class="nav-icon invert w-5 h-5 object-contain transition-all duration-300 z-10">
+          <span class="nav-text font-medium text-sm transition-colors tracking-wide z-10">${item.name}</span>
         </a>
       `).join('')}
     </div>
 
-    <div class="p-6 mt-auto border-t border-white/[0.02]">
-      <div class="p-5 rounded-3xl bg-[#11161E] flex items-center gap-4 group cursor-pointer hover:bg-white/[0.01] transition-all shadow-xl">
-        <img src="../../public/assets/clan.png" class="invert w-8 h-8 opacity-30 group-hover:opacity-100 transition-opacity">
-        <div class="flex-1">
-            <p class="text-[10px] font-black text-[#46F216] uppercase tracking-widest opacity-80">NightCoders</p>
-            <div class="flex items-center gap-2 mt-1">
-                <div class="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-                    <div class="h-full bg-[#46F216] w-[75%] shadow-[0_0_8px_#46F216]"></div>
-                </div>
-                <span class="text-[9px] font-bold text-white">75%</span>
+    <div class="p-6 mt-auto border-t border-white/[0.05]">
+      <div class="p-5 rounded-2xl bg-black/40 backdrop-blur-xl border border-white/5 flex flex-col gap-3 group cursor-pointer hover:border-white/10 transition-all shadow-inner relative overflow-hidden">
+        
+        <div class="absolute inset-0 bg-gradient-to-t from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        
+        <div class="flex items-center gap-4 relative z-10">
+            <img src="/assets/clan.png" class="invert w-8 h-8 opacity-60 group-hover:opacity-100 transition-opacity drop-shadow-[0_0_8px_rgba(255,255,255,0.3)]">
+            <div class="flex-1">
+                <p class="text-[10px] font-bold text-white uppercase tracking-widest mb-1">NightCoders</p>
+                <p class="text-[9px] font-medium text-fuchsia-400 uppercase tracking-widest">Lvl. 14 Alliance</p>
+            </div>
+        </div>
+        
+        <div class="relative z-10 mt-2">
+            <div class="flex justify-between items-center mb-1.5">
+                <span class="text-[9px] font-bold text-zinc-400 uppercase tracking-wider">Rank Progress</span>
+                <span class="text-[9px] font-bold text-purple-400">75%</span>
+            </div>
+            <div class="h-1.5 w-full bg-[#050505] rounded-full overflow-hidden border border-white/5">
+                <div class="h-full bg-gradient-to-r from-purple-500 to-fuchsia-500 w-[75%] shadow-[0_0_10px_rgba(192,38,211,0.6)]"></div>
             </div>
         </div>
       </div>

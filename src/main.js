@@ -2,12 +2,9 @@
 
 import { getAppLayout } from './components/layout.js';
 import { renderSidebar } from './features/navigation/sidebar.js';
-import { renderTutorIA } from './features/services/ai/tutor.js';
-import { initRouter, navigateTo } from './utils/router.js'; // Import the new router module
+import { renderTutorIA, initTutorLogic } from './features/services/ai/tutor.js';
+import { initRouter, navigateTo } from './utils/router.js'; 
 
-/**
- * 1. Application Initialization
- */
 document.addEventListener('DOMContentLoaded', () => {
     const app = document.getElementById('app');
     
@@ -16,16 +13,16 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Render static global components
     renderSidebar();
+    
+    // Render IA Tutor and initialize its interactive logic
     renderTutorIA(); 
+    initTutorLogic(); // <-- Iniciamos la lógica del chat aquí
     
     // Initialize the router event listeners
     initRouter();
 
-    // Initialize mobile interactions
-    initMobileLayout();
-
-    // Load the initial view
-    navigateTo('dashboard');
+    // Load the initial view (¡AQUÍ ESTABA EL ERROR!)
+    navigateTo('home'); // <-- Cambia 'dashboard' por 'home'
 });
 
 /**
