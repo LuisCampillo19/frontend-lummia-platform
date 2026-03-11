@@ -1,96 +1,98 @@
 export function renderPomodoro() {
   return /* html */`
-    <div class="animate-system-boot h-full flex flex-col relative z-0 p-4 lg:p-6 lg:px-8">
+    <div class="animate-system-boot h-full flex flex-col relative z-0 p-4 lg:p-6 lg:px-8 max-w-7xl mx-auto w-full">
       
-      <div class="flex-none mb-8">
-        <h1 class="text-3xl font-black text-white tracking-wide drop-shadow-md flex items-center gap-3">
-          <i class="fa-solid fa-stopwatch text-fuchsia-500 animate-pulse"></i> Focus Hub
-        </h1>
-        <p class="text-sm text-zinc-400 font-medium mt-2">Manage your energy and track your weekly goals.</p>
+      <div class="mb-8 flex flex-col md:flex-row md:items-end justify-between gap-4 shrink-0">
+         <div>
+            <h1 class="text-4xl font-black text-white tracking-tighter uppercase mb-2">Focus Hub</h1>
+            <p class="text-zinc-400 text-sm font-medium">Manage your energy, complete tasks, and earn experience points.</p>
+         </div>
+         <div class="flex items-center gap-3 px-4 py-2 bg-amber-500/10 border border-amber-500/20 rounded-xl">
+            <i class="fa-solid fa-bolt text-amber-500 animate-pulse"></i>
+            <span class="text-xs font-black text-amber-400 uppercase tracking-widest">Rate: 2 XP / Min</span>
+         </div>
       </div>
 
-      <div class="flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 gap-8 pb-10">
+      <div class="flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 min-h-0">
          
-         <div class="lg:col-span-4 flex flex-col gap-6">
-            <div class="bg-white/[0.02] backdrop-blur-3xl border border-white/[0.05] rounded-[2.5rem] p-8 shadow-2xl relative overflow-hidden flex flex-col items-center group">
-               <div class="absolute inset-0 bg-gradient-to-b from-fuchsia-600/10 to-transparent opacity-50"></div>
-               <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-fuchsia-500/20 rounded-full blur-[60px]"></div>
-
-               <div class="relative z-10 bg-fuchsia-500/10 border border-fuchsia-500/30 px-4 py-1.5 rounded-full mb-6 flex items-center gap-2 shadow-[0_0_15px_rgba(217,70,239,0.2)]">
-                  <span id="status-dot" class="w-2 h-2 rounded-full bg-fuchsia-400 animate-pulse"></span>
-                  <span id="pomodoro-status" class="text-[10px] font-black text-fuchsia-400 uppercase tracking-widest">Focus Phase</span>
+         <div class="lg:col-span-5 flex flex-col justify-center min-h-0">
+            <div class="bg-black/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-10 flex flex-col items-center shadow-2xl relative overflow-hidden">
+               <div class="absolute -top-20 -left-20 w-60 h-60 bg-fuchsia-600/10 rounded-full blur-[60px]"></div>
+               
+               <div class="flex items-center gap-2 px-4 py-1.5 rounded-full border border-fuchsia-500/30 bg-fuchsia-500/10 mb-10 relative z-10">
+                  <div id="status-dot" class="w-2 h-2 rounded-full bg-fuchsia-400 animate-pulse"></div>
+                  <span id="pomodoro-status" class="text-[9px] font-black text-fuchsia-400 tracking-widest uppercase">Focus Phase</span>
                </div>
 
-               <div id="pomodoro-ring" class="relative z-10 w-56 h-56 rounded-full bg-black/40 border-[4px] border-white/5 flex items-center justify-center shadow-[inset_0_0_30px_rgba(0,0,0,0.8)] mb-6 before:absolute before:inset-[-4px] before:rounded-full before:border-[4px] before:border-transparent before:border-t-fuchsia-500 before:animate-[spin_4s_linear_infinite] transition-all">
+               <div id="pomodoro-ring" class="relative w-64 h-64 rounded-full border-[6px] border-white/5 flex items-center justify-center mb-10 before:absolute before:-inset-[6px] before:rounded-full before:border-[6px] before:border-transparent before:border-t-fuchsia-500 before:transition-all before:duration-1000 z-10">
                   <div class="text-center">
-                     <h2 id="time-display" class="text-6xl font-black text-white tracking-tighter drop-shadow-[0_0_15px_rgba(255,255,255,0.4)] tabular-nums">25:00</h2>
-                     <p class="text-xs text-zinc-500 font-bold uppercase tracking-widest mt-2">Minutes</p>
+                     <div id="time-display" class="text-7xl font-black text-white tracking-tighter tabular-nums drop-shadow-lg">25:00</div>
+                     <div class="text-[10px] text-zinc-500 font-bold uppercase tracking-widest mt-2">Minutes</div>
                   </div>
                </div>
 
-               <div class="relative z-10 flex gap-2 w-full justify-center mb-2">
-                  <button class="mode-btn active px-4 py-2 rounded-xl bg-fuchsia-500/20 border border-fuchsia-500/50 text-fuchsia-400 text-[10px] font-bold uppercase tracking-widest transition-all" data-work="25" data-break="5" data-xp="50">25m</button>
-                  <button class="mode-btn px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-zinc-500 hover:text-white text-[10px] font-bold uppercase tracking-widest transition-all" data-work="50" data-break="10" data-xp="120">50m</button>
-                  <button class="mode-btn px-4 py-2 rounded-xl bg-white/5 border border-white/10 text-zinc-500 hover:text-white text-[10px] font-bold uppercase tracking-widest transition-all" data-work="90" data-break="15" data-xp="250">90m</button>
-               </div>
-
-               <div class="relative z-10 text-center mb-6">
-                  <span class="text-[10px] text-zinc-400 font-bold uppercase tracking-widest">Reward: <span id="reward-display" class="text-amber-400">+50 XP</span></span>
-               </div>
-
-               <div class="relative z-10 flex items-center gap-4 w-full justify-center">
-                  <button id="reset-timer-btn" class="w-12 h-12 rounded-2xl bg-white/5 hover:bg-white/10 border border-white/10 flex items-center justify-center text-zinc-400 hover:text-white transition-all active:scale-95">
-                     <i class="fa-solid fa-rotate-right text-lg"></i>
+               <div class="flex items-center justify-center gap-3 mb-8 w-full relative z-10">
+                  <div class="relative flex-1 flex items-center bg-white/5 border border-white/10 rounded-xl p-1 focus-within:border-fuchsia-500/50 transition-colors">
+                     <button class="w-10 h-10 rounded-lg flex items-center justify-center text-zinc-500 hover:text-white hover:bg-white/10 transition-colors pomo-minus-btn" data-target="main-custom-time">
+                        <i class="fa-solid fa-minus text-sm pointer-events-none"></i>
+                     </button>
+                     <input type="number" id="main-custom-time" min="1" max="300" value="25" class="bg-transparent text-white font-black text-2xl w-full outline-none text-center tabular-nums hide-spinner">
+                     <button class="w-10 h-10 rounded-lg flex items-center justify-center text-zinc-500 hover:text-white hover:bg-white/10 transition-colors pomo-plus-btn" data-target="main-custom-time">
+                        <i class="fa-solid fa-plus text-sm pointer-events-none"></i>
+                     </button>
+                  </div>
+                  <button id="main-apply-time" class="h-12 px-6 rounded-xl bg-fuchsia-500/10 border border-fuchsia-500/20 text-fuchsia-300 text-[10px] font-bold tracking-widest hover:bg-fuchsia-500 hover:text-white transition-colors">
+                     APPLY
                   </button>
-                  <button id="start-timer-btn" class="flex-1 py-3.5 rounded-2xl bg-fuchsia-600 hover:bg-fuchsia-500 text-white font-black uppercase tracking-widest text-xs shadow-[0_0_20px_rgba(217,70,239,0.4)] transition-all transform hover:scale-[1.02] active:scale-95">
-                     Start
+               </div>
+
+               <div class="text-[11px] font-bold text-zinc-400 uppercase tracking-widest mb-8 relative z-10">
+                  Potential Reward: <span id="reward-display" class="text-amber-400 font-black text-sm ml-1">+50 XP</span>
+               </div>
+
+               <div class="flex gap-4 w-full relative z-10">
+                  <button id="reset-timer-btn" class="w-16 h-14 rounded-2xl bg-white/5 border border-white/5 hover:bg-white/10 flex items-center justify-center text-zinc-400 hover:text-white transition-all">
+                     <i class="fa-solid fa-rotate-right text-lg pointer-events-none"></i>
+                  </button>
+                  <button id="start-timer-btn" class="flex-1 h-14 rounded-2xl bg-fuchsia-600 hover:bg-fuchsia-500 flex items-center justify-center text-white text-sm font-black tracking-widest shadow-[0_0_20px_rgba(217,70,239,0.3)] transition-all uppercase">
+                     Start Focus
                   </button>
                </div>
             </div>
          </div>
 
-         <div class="lg:col-span-8 flex flex-col gap-6 h-full">
-            <div class="bg-white/[0.02] backdrop-blur-3xl border border-white/[0.05] rounded-[2.5rem] p-6 lg:p-8 shadow-2xl flex-1 flex flex-col overflow-hidden">
+         <div class="lg:col-span-7 flex flex-col min-h-0">
+            <div class="bg-black/40 backdrop-blur-3xl border border-white/5 rounded-[2.5rem] p-8 flex-1 flex flex-col shadow-2xl overflow-hidden min-h-0">
                
-               <div class="flex items-center justify-between mb-6">
-                  <h3 class="text-sm font-black text-white uppercase tracking-widest flex items-center gap-3">
-                     <i class="fa-solid fa-list-check text-emerald-400"></i> Weekly Log
+               <div class="flex items-center justify-between mb-6 shrink-0">
+                  <h3 class="text-xs font-black text-white uppercase tracking-[0.2em] flex items-center gap-3">
+                     <i class="fa-solid fa-list-check text-fuchsia-500"></i> Objective Tracker
                   </h3>
                   <div class="flex gap-2">
-                     <button id="add-task-btn" class="px-3 py-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-emerald-500/20 transition-colors active:scale-95">
-                        <i class="fa-solid fa-plus mr-1"></i> Add
-                     </button>
-                     <button id="clear-all-tasks" class="px-3 py-2 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-amber-500/20 transition-colors active:scale-95">
-                        <i class="fa-solid fa-eraser mr-1"></i> Clear
-                     </button>
-                     <button id="delete-all-tasks" class="px-3 py-2 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-xl text-[10px] font-bold uppercase tracking-widest border border-red-500/20 transition-colors active:scale-95">
-                        <i class="fa-solid fa-trash-can mr-1"></i> Delete All
-                     </button>
+                     <button id="clear-all-tasks" class="px-4 py-2 bg-white/5 hover:bg-white/10 rounded-xl border border-white/5 text-[9px] font-bold text-zinc-400 hover:text-white uppercase tracking-widest transition-colors">Clear Status</button>
+                     <button id="delete-all-tasks" class="px-4 py-2 bg-red-500/10 hover:bg-red-500/20 rounded-xl border border-red-500/20 text-[9px] font-bold text-red-400 hover:text-red-300 uppercase tracking-widest transition-colors">Delete All</button>
                   </div>
                </div>
-
-               <div class="flex-1 overflow-x-auto custom-scrollbar bg-black/40 rounded-2xl border border-white/10">
-                  <table class="w-full min-w-[800px] border-collapse text-left">
-                     <thead>
-                        <tr class="border-b border-white/10 bg-white/5">
-                           <th class="py-3 px-4 text-[10px] font-black text-zinc-400 uppercase tracking-widest w-1/3 border-r border-white/5">Weekly Objective</th>
-                           <th class="py-3 px-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest text-center border-r border-white/5 w-14">Mon</th>
-                           <th class="py-3 px-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest text-center border-r border-white/5 w-14">Tue</th>
-                           <th class="py-3 px-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest text-center border-r border-white/5 w-14">Wed</th>
-                           <th class="py-3 px-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest text-center border-r border-white/5 w-14">Thu</th>
-                           <th class="py-3 px-2 text-[10px] font-black text-zinc-400 uppercase tracking-widest text-center border-r border-white/5 w-14">Fri</th>
-                           <th class="py-3 px-2 text-[10px] font-black text-amber-400 uppercase tracking-widest text-center border-r border-white/5 w-14">Sat</th>
-                           <th class="py-3 px-2 text-[10px] font-black text-amber-400 uppercase tracking-widest text-center border-r border-white/5 w-14">Sun</th>
-                           <th class="py-3 px-2 text-[10px] font-black text-red-400 uppercase tracking-widest text-center w-12">Del</th>
+               
+               <div class="flex-1 overflow-auto custom-scrollbar pr-2 relative">
+                  <table class="w-full text-left border-collapse min-w-[600px]">
+                     <thead class="sticky top-0 z-20 bg-[#0c0514]/95 backdrop-blur-md shadow-sm">
+                        <tr class="border-b border-white/10">
+                           <th class="py-4 px-4 text-[9px] font-black text-zinc-500 uppercase tracking-widest w-full border-r border-white/5">Task Description</th>
+                           ${['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map(day => `<th class="py-4 px-3 text-center text-[9px] font-black text-zinc-500 uppercase tracking-widest border-r border-white/5 w-14">${day}</th>`).join('')}
+                           <th class="py-4 px-3 text-center text-[9px] font-black text-zinc-500 uppercase tracking-widest w-12"><i class="fa-solid fa-trash"></i></th>
                         </tr>
                      </thead>
-                     <tbody id="task-table-body" class="text-sm">
+                     <tbody id="task-table-body">
                         </tbody>
                   </table>
                </div>
+               
+               <button id="add-task-btn" class="w-full mt-6 shrink-0 py-4 rounded-xl border border-dashed border-white/20 hover:border-fuchsia-500/50 bg-white/[0.02] hover:bg-fuchsia-500/5 text-[10px] font-black text-zinc-400 hover:text-fuchsia-400 uppercase tracking-[0.2em] transition-all flex items-center justify-center gap-2">
+                  <i class="fa-solid fa-plus pointer-events-none"></i> Add New Objective
+               </button>
             </div>
          </div>
-
       </div>
     </div>
   `;
