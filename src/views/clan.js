@@ -1,4 +1,3 @@
-// src/views/clan.js
 
 export function renderClan() {
   return /* html */`

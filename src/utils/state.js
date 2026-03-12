@@ -1,13 +1,24 @@
-// src/utils/state.js
+
+// Intentamos sacar los datos que guardamos en el login
+const getSavedSession = () => {
+    const session = localStorage.getItem('user_session');
+    return session ? JSON.parse(session) : null;
+};
+
 const state = {
-  user: { name: 'MATIASAC110508', level: 14, xp: 2450 },
-  isAuthenticated: true,
+    user: getSavedSession(),
+    isAuthenticated: !!getSavedSession(),
 };
 
 export function getState() {
-  return state || { user: { name: 'guest' } };
+    // Si no hay sesión, devolvemos un objeto vacío o invitado
+    const session = getSavedSession();
+    return {
+        user: session || { username: 'Invitado', level: 0 },
+        isAuthenticated: !!session
+    };
 }
 
 export function setState(newState) {
-  Object.assign(state, newState);
+    Object.assign(state, newState);
 }

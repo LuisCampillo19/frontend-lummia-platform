@@ -1,26 +1,30 @@
+
 export function renderProfile() {
-  // Target al ID detectado en tu consola: main-container
   const container = document.getElementById('main-container'); 
   if (!container) return;
 
+  // 1. OBTENER DATOS REALES DE LA SESIÓN
+  const rawSession = localStorage.getItem('user_session');
+  const session = (rawSession && rawSession !== "undefined") 
+    ? JSON.parse(rawSession) 
+    : { 
+        username: 'User_Admin', 
+        id: '0000',
+        level: 1, 
+        xp: 0,
+        role: 'student'
+      };
+
   container.innerHTML = /* html */`
     <style>
-      /* Estilización del scrollbar para la Bio (Evita que choque con bordes redondeados) */
-      .bio-scrollbar::-webkit-scrollbar {
-        width: 6px;
-      }
-      .bio-scrollbar::-webkit-scrollbar-track {
-        background: transparent;
-        margin: 12px; /* Margen para que no toque las curvas del contenedor */
-      }
+      .bio-scrollbar::-webkit-scrollbar { width: 6px; }
+      .bio-scrollbar::-webkit-scrollbar-track { background: transparent; margin: 12px; }
       .bio-scrollbar::-webkit-scrollbar-thumb {
         background: rgba(217, 70, 239, 0.2);
         border-radius: 10px;
         transition: all 0.3s;
       }
-      .bio-scrollbar::-webkit-scrollbar-thumb:hover {
-        background: rgba(217, 70, 239, 0.5);
-      }
+      .bio-scrollbar::-webkit-scrollbar-thumb:hover { background: rgba(217, 70, 239, 0.5); }
     </style>
 
     <div id="profile-view" class="p-8 max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-700 pb-20">
@@ -42,24 +46,26 @@ export function renderProfile() {
                   </div>
                </div>
             </div>
-            <div class="absolute -bottom-2 -right-2 bg-fuchsia-600 text-white text-[10px] font-black px-4 py-1.5 rounded-xl shadow-lg border border-fuchsia-400/30">LVL 14</div>
+            <div class="absolute -bottom-2 -right-2 bg-fuchsia-600 text-white text-[10px] font-black px-4 py-1.5 rounded-xl shadow-lg border border-fuchsia-400/30 italic">
+                LVL ${session.level || 1}
+            </div>
          </div>
 
          <div class="text-center md:text-left flex-1">
-            <h2 class="text-4xl font-black text-white uppercase tracking-tighter">Panel de Perfil</h2>
+            <h2 class="text-4xl font-black text-white uppercase tracking-tighter italic">Panel de Perfil</h2>
             <p class="text-zinc-400 text-sm font-medium mt-1">Configura tu cuenta y visualiza tus logros en <span class="text-fuchsia-500 font-bold">Lummia</span></p>
             
             <div class="flex flex-wrap justify-center md:justify-start gap-3 mt-6">
                <div class="px-4 py-1.5 bg-fuchsia-500/10 rounded-xl border border-fuchsia-500/20">
-                  <span class="text-[10px] font-black text-fuchsia-400 uppercase tracking-widest">MatiasAC110508</span>
+                  <span class="text-[10px] font-black text-fuchsia-400 uppercase tracking-widest italic">${session.username}</span>
                </div>
                <div class="px-4 py-1.5 bg-white/5 rounded-xl border border-white/10">
-                  <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">ID: #8844013</span>
+                  <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">ID: #${session.id || 'N/A'}</span>
                </div>
             </div>
          </div>
 
-         <button class="px-8 py-4 bg-fuchsia-600 hover:bg-fuchsia-500 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-[0_0_30px_rgba(217,70,239,0.3)] active:scale-95">
+         <button onclick="window.saveProfileData()" class="px-8 py-4 bg-fuchsia-600 hover:bg-fuchsia-500 text-white rounded-2xl font-black text-xs uppercase tracking-[0.2em] transition-all shadow-[0_0_30px_rgba(217,70,239,0.3)] active:scale-95">
             Guardar Todo
          </button>
       </div>
@@ -79,11 +85,11 @@ export function renderProfile() {
                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div class="space-y-2">
                      <label class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">Nombre de Usuario</label>
-                     <input type="text" value="MATIASAC110508" class="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-4 text-sm text-zinc-200 focus:border-fuchsia-500/50 outline-none transition-all">
+                     <input type="text" id="profile-username" value="${session.username}" class="w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-4 text-sm text-zinc-200 focus:border-fuchsia-500/50 outline-none transition-all uppercase font-black italic">
                   </div>
                   <div class="space-y-2">
                      <label class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest ml-1">Tu Bio / Descripción</label>
-                     <textarea rows="3" class="bio-scrollbar w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-4 pr-10 text-sm text-zinc-200 focus:border-fuchsia-500/50 outline-none transition-all resize-none">Mago del Backend y amante del código limpio en Lummia.</textarea>
+                     <textarea id="profile-bio" rows="3" class="bio-scrollbar w-full bg-white/[0.03] border border-white/10 rounded-2xl px-5 py-4 pr-10 text-sm text-zinc-200 focus:border-fuchsia-500/50 outline-none transition-all resize-none">Mago del Backend en el Clan Thomson.</textarea>
                   </div>
                </div>
             </div>
@@ -144,7 +150,7 @@ export function renderProfile() {
             </div>
             
             <div class="pt-6 border-t border-white/5">
-               <button class="w-full py-3 text-red-500/40 hover:text-red-500 text-[9px] font-bold uppercase tracking-[0.2em] transition-all">
+               <button onclick="window.logoutLummia()" class="w-full py-3 text-red-500/40 hover:text-red-500 text-[9px] font-bold uppercase tracking-[0.2em] transition-all">
                   Cerrar todas las sesiones
                </button>
             </div>
@@ -153,4 +159,42 @@ export function renderProfile() {
       </div>
     </div>
   `;
+
+  // --- LÓGICA DE PERSISTENCIA ---
+  window.saveProfileData = async () => {
+      const newName = document.getElementById('profile-username').value;
+      const newBio = document.getElementById('profile-bio').value;
+      
+      try {
+          const response = await fetch('http://localhost:5000/api/users/update-profile', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                  user_id: session.id,
+                  username: newName,
+                  bio: newBio
+              })
+          });
+
+          const data = await response.json();
+          if (data.status === 'success') {
+              // Actualizar el localStorage para que el cambio sea global
+              session.username = newName;
+              localStorage.setItem('user_session', JSON.stringify(session));
+              
+              alert(`¡Perfil de ${newName} sincronizado con el servidor! 🦦🔥`);
+              // Recargamos para que se actualice el sidebar y otros componentes
+              location.reload(); 
+          }
+      } catch (error) {
+          console.error("Error al guardar perfil:", error);
+          alert("Error de enlace con el servidor de Lummia.");
+      }
+  };
+
+  // FUNCIÓN PARA LOGOUT
+  window.logoutLummia = () => {
+      localStorage.removeItem('user_session');
+      location.reload();
+  };
 }

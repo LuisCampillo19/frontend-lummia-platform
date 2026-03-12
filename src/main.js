@@ -1,40 +1,60 @@
+// src/main.js
 import { getAppLayout } from './components/layout.js';
 import { renderSidebar } from './features/navigation/sidebar.js';
 import { renderTutorIA, initTutorLogic } from './features/services/ai/tutor.js';
-import { initRouter, navigateTo } from './utils/router.js'; 
+import { initRouter } from './utils/router.js'; 
 import { injectGlobalPomodoroUI } from './components/globalPomodoro.js';
 import { initGlobalPomodoroLogic } from './features/services/pomodoro/pomodoroLogic.js';
 
-document.addEventListener('DOMContentLoaded', () => {
+/**
+ * FUNCIÓN DE INICIALIZACIÓN COMPLETA
+ * Esta función construye el "cuerpo" de la app. Solo se llama si el usuario está logueado.
+ */
+export function setupFullInterface() {
     const app = document.getElementById('app');
     
-    app.innerHTML = getAppLayout();
+    // 1. Inyectamos el Layout Base si no existe
+    if (!document.getElementById('app-layout')) {
+        app.innerHTML = getAppLayout();
+    }
     
+    // 2. Inicializamos componentes del Dashboard
     initMobileLayout();
     initAILayout(); 
-    initThemeSwitcher(); 
     
+    // 3. Renderizamos piezas clave
     renderSidebar();
     injectGlobalPomodoroUI();
     initGlobalPomodoroLogic();
     
     renderTutorIA(); 
     initTutorLogic();
+}
+
+/**
+ * PUNTO DE ENTRADA AL CARGAR EL NAVEGADOR
+ */
+document.addEventListener('DOMContentLoaded', () => {
+    // IMPORTANTE: No inyectamos getAppLayout() aquí para que no aparezca el Dashboard vacío.
     
+    // 1. Inicializamos el switch de temas (esto puede vivir antes del login)
+    initThemeSwitcher(); 
+    
+    // 2. Arrancamos el Router. 
+    // Él decidirá si llama a setupFullInterface() o si muestra el Login.
     initRouter();
-    navigateTo('home');
 });
+
+// --- LÓGICA DE INTERFAZ (Mantenida de tu código original) ---
 
 function initMobileLayout() {
     const menuBtn = document.getElementById('mobile-menu-toggle');
     const nav = document.getElementById('nav-container');
-
     if (!menuBtn || !nav) return;
 
     menuBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         const isClosed = nav.classList.contains('-translate-x-full');
-        
         if (isClosed) {
             nav.classList.remove('-translate-x-full');
             menuBtn.innerHTML = '<i class="fa-solid fa-xmark text-sm pointer-events-none"></i>';
@@ -61,14 +81,11 @@ function initMobileLayout() {
 function initAILayout() {
     const aiBtn = document.getElementById('ai-menu-toggle');
     const aiPanel = document.getElementById('ai-panel-container');
-
     if (!aiBtn || !aiPanel) return;
 
     aiBtn.addEventListener('click', (e) => {
         e.stopPropagation();
-        
         const isClosed = aiPanel.classList.contains('translate-x-full') || aiPanel.classList.contains('hidden');
-        
         if (isClosed) {
             aiPanel.classList.remove('translate-x-full', 'hidden');
             aiPanel.classList.add('translate-x-0');
@@ -108,7 +125,6 @@ function initThemeSwitcher() {
     document.addEventListener('click', (e) => {
         const btn = e.target.closest('.theme-btn');
         if (!btn) return;
-
         const theme = btn.getAttribute('data-theme');
         applyTheme(theme);
         localStorage.setItem('lummia_theme', theme);
@@ -138,7 +154,6 @@ function initThemeSwitcher() {
         const glows = document.getElementById('ambient-glows');
         const nav = document.getElementById('nav-container');
         const ai = document.getElementById('ai-panel-container');
-
         if (!wrapper || !nav || !ai) return;
 
         if (theme === 'neon') {
@@ -147,73 +162,22 @@ function initThemeSwitcher() {
             if (glows) glows.style.opacity = "1";
             nav.className = "w-64 lg:w-72 h-full flex-shrink-0 border-r border-white/[0.05] bg-white/[0.01] backdrop-blur-3xl flex flex-col transition-all duration-300 absolute lg:relative z-50 -translate-x-full lg:translate-x-0 shadow-[4px_0_24px_rgba(0,0,0,0.5)]";
             ai.className = "absolute right-0 top-0 w-80 lg:w-[400px] h-full flex-shrink-0 border-l border-white/[0.05] bg-[#050505]/95 backdrop-blur-3xl flex flex-col z-40 transform translate-x-full transition-all duration-300 shadow-[-20px_0_50px_rgba(0,0,0,0.5)]";
-            
         } else if (theme === 'black') {
             styleEl.innerHTML = ''; 
             wrapper.className = "h-screen w-full bg-[#050505] text-zinc-100 flex overflow-hidden selection:bg-zinc-700 relative z-0 transition-colors duration-500";
             if (glows) glows.style.opacity = "0"; 
             nav.className = "w-64 lg:w-72 h-full flex-shrink-0 border-r border-zinc-800 bg-[#050505] flex flex-col transition-all duration-300 absolute lg:relative z-50 -translate-x-full lg:translate-x-0";
             ai.className = "absolute right-0 top-0 w-80 lg:w-[400px] h-full flex-shrink-0 border-l border-zinc-800 bg-[#050505] flex flex-col z-40 transform translate-x-full transition-all duration-300 shadow-2xl";
-            
         } else if (theme === 'white') {
-            // CSS MEJORADO PARA LIGHT MODE (Más tonalidades, sombras y sin gradientes sucios)
             styleEl.innerHTML = `
-                /* Fuerzo textos a gris oscuro puro para legibilidad */
-                #app-wrapper .text-white:not(.bg-fuchsia-600):not(.bg-purple-600):not(.text-fuchsia-400):not(.text-amber-400):not(.text-emerald-400) { color: #18181b !important; }
-                #app-wrapper .text-zinc-400, #app-wrapper .text-zinc-500 { color: #52525b !important; }
-                #app-wrapper .text-zinc-300 { color: #3f3f46 !important; }
-                
-                /* Fondos de Tarjetas Principales (Blanco puro con sombra elevada) */
-                #app-wrapper .bg-white\\/\\[0\\.01\\], 
-                #app-wrapper .bg-white\\/\\[0\\.02\\], 
-                #app-wrapper .bg-white\\/\\[0\\.05\\],
-                #app-wrapper .bg-black\\/40, 
-                #app-wrapper .bg-black\\/50, 
-                #app-wrapper .bg-black\\/60 { 
-                    background-color: #ffffff !important; 
-                    background-image: none !important; /* Elimina cualquier degradado oscuro */
-                    box-shadow: 0 10px 40px -10px rgba(0,0,0,0.08) !important; 
-                    border-color: #f4f4f5 !important;
-                }
-                
-                /* Fondos secundarios (Paneles internos, inputs) */
-                #app-wrapper .bg-\\[\\#0a0a0a\\], 
-                #app-wrapper .bg-\\[\\#050505\\], 
-                #app-wrapper .bg-black,
-                #app-wrapper .bg-\\[\\#130b1c\\] { 
-                    background-color: #f4f4f5 !important; 
-                    background-image: none !important;
-                }
-                
-                /* Bordes muy suaves */
-                #app-wrapper .border-white\\/\\[0\\.05\\], 
-                #app-wrapper .border-white\\/5, 
-                #app-wrapper .border-white\\/10 { 
-                    border-color: #e4e4e7 !important; 
-                }
-                
-                /* Campos de formulario legibles */
-                #app-wrapper input, 
-                #app-wrapper textarea, 
-                #app-wrapper select { 
-                    color: #18181b !important; 
-                    background-color: #fafafa !important; 
-                    border-color: #d4d4d8 !important; 
-                }
-                
-                #app-wrapper input::placeholder, 
-                #app-wrapper textarea::placeholder { color: #a1a1aa !important; }
-
-                /* Ajuste de Badges para que no resalten demasiado sobre blanco */
-                #app-wrapper .bg-fuchsia-500\\/10 { background-color: #fdf4ff !important; border-color: #fae8ff !important; }
-                #app-wrapper .bg-amber-500\\/10 { background-color: #fffbeb !important; border-color: #fef3c7 !important; }
-                #app-wrapper .bg-emerald-500\\/10 { background-color: #ecfdf5 !important; border-color: #d1fae5 !important; }
+                #app-wrapper .text-white:not(.bg-fuchsia-600) { color: #18181b !important; }
+                #app-wrapper .bg-white\\/\\[0\\.01\\] { background-color: #ffffff !important; box-shadow: 0 4px 12px rgba(0,0,0,0.05) !important; }
+                #app-wrapper .border-white\\/\\[0\\.05\\] { border-color: #e4e4e7 !important; }
             `;
-            
             wrapper.className = "h-screen w-full bg-[#f8fafc] text-zinc-900 flex overflow-hidden selection:bg-fuchsia-200 relative z-0 transition-colors duration-500";
             if (glows) glows.style.opacity = "0";
             nav.className = "w-64 lg:w-72 h-full flex-shrink-0 border-r border-zinc-200 bg-white flex flex-col transition-all duration-300 absolute lg:relative z-50 -translate-x-full lg:translate-x-0 shadow-sm";
-            ai.className = "absolute right-0 top-0 w-80 lg:w-[400px] h-full flex-shrink-0 border-l border-zinc-200 bg-white/95 backdrop-blur-xl flex flex-col z-40 transform translate-x-full transition-all duration-300 shadow-[-10px_0_30px_rgba(0,0,0,0.05)]";
+            ai.className = "absolute right-0 top-0 w-80 lg:w-[400px] h-full flex-shrink-0 border-l border-zinc-200 bg-white/95 flex flex-col z-40 transform translate-x-full transition-all duration-300 shadow-[-10px_0_30px_rgba(0,0,0,0.05)]";
         }
     }
 }
