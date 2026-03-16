@@ -1,3 +1,4 @@
+// src/views/skills.js - Real skill tree from API
 import { content } from '../api/client.js';
 import { getState } from '../utils/state.js';
 

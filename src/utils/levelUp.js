@@ -1,3 +1,5 @@
+// src/utils/levelUp.js - Level-up celebration overlay
+
 export function showLevelUp(level, rankName) {
     // Remove existing overlay if any
     const existing = document.getElementById('level-up-overlay');

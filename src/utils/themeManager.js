@@ -1,61 +1,62 @@
+// src/utils/themeManager.js - Unified theme system (single source of truth)
 const STORAGE_KEY = 'lummia_theme';
 
 let styleEl = null;
 
 function getStyleEl() {
+  if (!styleEl) {
+    styleEl = document.getElementById('theme-overrides');
     if (!styleEl) {
-        styleEl = document.getElementById('theme-overrides');
-        if (!styleEl) {
-            styleEl = document.createElement('style');
-            styleEl.id = 'theme-overrides';
-            document.head.appendChild(styleEl);
-        }
+      styleEl = document.createElement('style');
+      styleEl.id = 'theme-overrides';
+      document.head.appendChild(styleEl);
     }
-    return styleEl;
+  }
+  return styleEl;
 }
 
 function applyPanelClasses(theme) {
-    const nav = document.getElementById('nav-container');
-    const ai = document.getElementById('ai-panel-container');
+  const nav = document.getElementById('nav-container');
+  const ai = document.getElementById('ai-panel-container');
 
-    const navClasses = ['bg-[#050505]', 'bg-[#09090b]', 'bg-white', 'shadow-sm', 'shadow-[4px_0_24px_rgba(0,0,0,0.5)]', 'shadow-2xl'];
-    const aiClasses = ['bg-[#050505]', 'bg-[#09090b]', 'bg-white/95', 'shadow-2xl', 'shadow-[-20px_0_50px_rgba(0,0,0,0.5)]', 'shadow-[-10px_0_30px_rgba(0,0,0,0.05)]'];
+  const navClasses = ['bg-[#050505]', 'bg-[#09090b]', 'bg-white', 'shadow-sm', 'shadow-[4px_0_24px_rgba(0,0,0,0.5)]', 'shadow-2xl'];
+  const aiClasses = ['bg-[#050505]', 'bg-[#09090b]', 'bg-white/95', 'shadow-2xl', 'shadow-[-20px_0_50px_rgba(0,0,0,0.5)]', 'shadow-[-10px_0_30px_rgba(0,0,0,0.05)]'];
 
-    if (nav) nav.classList.remove(...navClasses);
-    if (ai) ai.classList.remove(...aiClasses);
+  if (nav) nav.classList.remove(...navClasses);
+  if (ai) ai.classList.remove(...aiClasses);
 
-    if (theme === 'neon') {
-        if (nav) nav.classList.add('bg-[#050505]', 'shadow-[4px_0_24px_rgba(0,0,0,0.5)]');
-        if (ai) ai.classList.add('bg-[#050505]', 'shadow-[-20px_0_50px_rgba(0,0,0,0.5)]');
-    } else if (theme === 'black') {
-        if (nav) nav.classList.add('bg-[#09090b]', 'shadow-2xl');
-        if (ai) ai.classList.add('bg-[#09090b]', 'shadow-2xl');
-    } else if (theme === 'white') {
-        if (nav) nav.classList.add('bg-white', 'shadow-sm');
-        if (ai) ai.classList.add('bg-white/95', 'shadow-[-10px_0_30px_rgba(0,0,0,0.05)]');
-    }
+  if (theme === 'neon') {
+    if (nav) nav.classList.add('bg-[#050505]', 'shadow-[4px_0_24px_rgba(0,0,0,0.5)]');
+    if (ai) ai.classList.add('bg-[#050505]', 'shadow-[-20px_0_50px_rgba(0,0,0,0.5)]');
+  } else if (theme === 'black') {
+    if (nav) nav.classList.add('bg-[#09090b]', 'shadow-2xl');
+    if (ai) ai.classList.add('bg-[#09090b]', 'shadow-2xl');
+  } else if (theme === 'white') {
+    if (nav) nav.classList.add('bg-white', 'shadow-sm');
+    if (ai) ai.classList.add('bg-white/95', 'shadow-[-10px_0_30px_rgba(0,0,0,0.05)]');
+  }
 }
 
 function applyWrapperClasses(theme) {
-    const wrapper = document.getElementById('app-wrapper');
-    if (!wrapper) return;
+  const wrapper = document.getElementById('app-wrapper');
+  if (!wrapper) return;
 
-    // Use CSS variable classes — they adapt automatically per theme
-    const selectionColor = theme === 'neon' ? 'selection:bg-purple-500/30'
-        : theme === 'black' ? 'selection:bg-zinc-700'
-            : 'selection:bg-fuchsia-200';
+  // Use CSS variable classes — they adapt automatically per theme
+  const selectionColor = theme === 'neon' ? 'selection:bg-purple-500/30'
+    : theme === 'black' ? 'selection:bg-zinc-700'
+    : 'selection:bg-fuchsia-200';
 
-    wrapper.className = `h-screen w-full bg-app text-main flex overflow-hidden ${selectionColor} relative z-0 transition-colors duration-500`;
-    wrapper.setAttribute('data-current-theme', theme);
+  wrapper.className = `h-screen w-full bg-app text-main flex overflow-hidden ${selectionColor} relative z-0 transition-colors duration-500`;
+  wrapper.setAttribute('data-current-theme', theme);
 }
 
 function applyCSSOverrides(theme) {
-    const el = getStyleEl();
+  const el = getStyleEl();
 
-    if (theme === 'white') {
-        // Global overrides using [data-theme="white"] so they apply EVERYWHERE
-        // (including login page which is outside #app-wrapper)
-        el.innerHTML = `
+  if (theme === 'white') {
+    // Global overrides using [data-theme="white"] so they apply EVERYWHERE
+    // (including login page which is outside #app-wrapper)
+    el.innerHTML = `
       /* ── Text colors ── */
       [data-theme="white"] .text-white:not(
         [class*="bg-fuchsia-"], [class*="bg-indigo-"], [class*="bg-emerald-"],
@@ -137,9 +138,9 @@ function applyCSSOverrides(theme) {
         [class*="hover:bg-red-"], [class*="hover:bg-accent"]
       ) { color: #0f172a !important; }
     `;
-    } else if (theme === 'black') {
-        // Black theme: enhance border visibility and card separation
-        el.innerHTML = `
+  } else if (theme === 'black') {
+    // Black theme: enhance border visibility and card separation
+    el.innerHTML = `
       /* ── Better border contrast for black theme ── */
       [data-theme="black"] [class*="border-line"] {
         border-color: rgba(63, 63, 70, 0.5) !important;
@@ -166,51 +167,51 @@ function applyCSSOverrides(theme) {
         background: rgba(82, 82, 91, 0.5) !important;
       }
     `;
-    } else {
-        el.innerHTML = '';
-    }
+  } else {
+    el.innerHTML = '';
+  }
 }
 
 function updateButtons(theme) {
-    const buttons = document.querySelectorAll('.theme-btn');
-    if (buttons.length === 0) return;
+  const buttons = document.querySelectorAll('.theme-btn');
+  if (buttons.length === 0) return;
 
-    // Reset all buttons with theme-aware classes
-    buttons.forEach(b => {
-        b.className = 'theme-btn flex-1 py-2 rounded-lg bg-transparent text-muted hover:text-main hover:bg-main/5 transition-all';
-    });
+  // Reset all buttons with theme-aware classes
+  buttons.forEach(b => {
+    b.className = 'theme-btn flex-1 py-2 rounded-lg bg-transparent text-muted hover:text-main hover:bg-main/5 transition-all';
+  });
 
-    const activeBtn = Array.from(buttons).find(b => b.getAttribute('data-theme') === theme);
-    if (!activeBtn) return;
+  const activeBtn = Array.from(buttons).find(b => b.getAttribute('data-theme') === theme);
+  if (!activeBtn) return;
 
-    if (theme === 'neon') {
-        activeBtn.className = 'theme-btn flex-1 py-2 rounded-lg bg-fuchsia-500/20 border border-fuchsia-500/50 text-fuchsia-400 transition-all';
-    } else if (theme === 'black') {
-        activeBtn.className = 'theme-btn flex-1 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white transition-all';
-    } else if (theme === 'white') {
-        activeBtn.className = 'theme-btn flex-1 py-2 rounded-lg bg-white border border-zinc-200 text-zinc-900 shadow-sm transition-all';
-    }
+  if (theme === 'neon') {
+    activeBtn.className = 'theme-btn flex-1 py-2 rounded-lg bg-fuchsia-500/20 border border-fuchsia-500/50 text-fuchsia-400 transition-all';
+  } else if (theme === 'black') {
+    activeBtn.className = 'theme-btn flex-1 py-2 rounded-lg bg-zinc-800 border border-zinc-700 text-white transition-all';
+  } else if (theme === 'white') {
+    activeBtn.className = 'theme-btn flex-1 py-2 rounded-lg bg-white border border-zinc-200 text-zinc-900 shadow-sm transition-all';
+  }
 }
 
 export const ThemeManager = {
-    init() {
-        const savedTheme = localStorage.getItem(STORAGE_KEY) || 'neon';
-        this.apply(savedTheme);
-    },
+  init() {
+    const savedTheme = localStorage.getItem(STORAGE_KEY) || 'neon';
+    this.apply(savedTheme);
+  },
 
-    apply(theme) {
-        document.documentElement.setAttribute('data-theme', theme);
-        localStorage.setItem(STORAGE_KEY, theme);
+  apply(theme) {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem(STORAGE_KEY, theme);
 
-        applyWrapperClasses(theme);
-        applyPanelClasses(theme);
-        applyCSSOverrides(theme);
-        updateButtons(theme);
+    applyWrapperClasses(theme);
+    applyPanelClasses(theme);
+    applyCSSOverrides(theme);
+    updateButtons(theme);
 
-        window.dispatchEvent(new CustomEvent('themeChanged', { detail: theme }));
-    },
+    window.dispatchEvent(new CustomEvent('themeChanged', { detail: theme }));
+  },
 
-    current() {
-        return localStorage.getItem(STORAGE_KEY) || 'neon';
-    }
+  current() {
+    return localStorage.getItem(STORAGE_KEY) || 'neon';
+  }
 };
