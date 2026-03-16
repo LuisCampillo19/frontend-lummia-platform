@@ -1,3 +1,4 @@
+// src/views/admin.js
 import { admin, content, feed, gamification, clanChat } from '../api/client.js';
 import { getState } from '../utils/state.js';
 

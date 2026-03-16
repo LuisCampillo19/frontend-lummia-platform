@@ -3,11 +3,11 @@ import { getState } from '../utils/state.js';
 import { getToken, clanChat, gamification, admin } from '../api/client.js';
 
 export function renderClan() {
-    const { user } = getState();
-    const session = user || { clan_name: 'Unaffiliated' };
-    const isPrivileged = session.role === 'super_admin' || session.role === 'tech_lead';
+  const { user } = getState();
+  const session = user || { clan_name: 'Unaffiliated' };
+  const isPrivileged = session.role === 'super_admin' || session.role === 'tech_lead';
 
-    return /* html */`
+  return /* html */`
     <div class="animate-system-boot h-full flex flex-col relative z-0 p-4 lg:p-6 lg:px-8">
 
       <div class="flex-none bg-main/[0.02] backdrop-blur-3xl border border-line/10 rounded-[2.5rem] p-8 mb-8 relative overflow-hidden shadow-2xl group flex-shrink-0">
